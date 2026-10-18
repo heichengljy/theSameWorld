@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#000000">
+<title>同一个世界</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div id="viewport">
+  <div id="stage">
+
+    <!-- ============== 加载页 ============== -->
+    <section id="page-load" class="page">
+      <div class="load-bg" id="load-bg"></div>
+      <div class="bg-mask"></div>
+
+      <div class="load-tip">推 荐 带 耳 机</div>
+
+      <img class="load-headset" data-src="../image/bg_title/Headset.png" alt="">
+
+      <div class="load-status" id="load-status">加 载 资 源 中</div>
+
+      <div class="progress-wrap" id="progress-wrap">
+        <div class="progress-track">
+          <div class="progress-fill" id="fill"></div>
+        </div>
+        <div class="progress-text" id="load-text">资 源 加 载 中 · 0%</div>
+      </div>
+
+      <img class="load-wave lw-1" src="../image/bg_title/start_water.png" alt="">
+      <img class="load-wave lw-2" src="../image/bg_title/start_water.png" alt="">
+      <img class="load-wave lw-3" src="../image/bg_title/start_water.png" alt="">
+      <img class="load-wave lw-4" src="../image/bg_title/start_water.png" alt="">
+
+      <img class="load-next" id="load-next"
+           src="../image/bg_title/success_next_bt.png" alt="点击开始">
+    </section>
+
+    <!-- ============== 主菜单 + 选关 ============== -->
+    <section id="page-main" class="page">
+      <div id="scene-main" class="scene">
+        <div class="bg" id="bg-main"></div>
+        <div class="content" id="main-content">
+          <img class="title" src="../image/bg_title/menu_title_cn.png" alt="同一个世界">
+          <div class="carousel" id="carousel">
+            <div class="slide active" data-mode="1" data-title="两世之约">
+              <img class="wave wave-1" src="../image/bg_title/start_water.png" alt="">
+              <img class="wave wave-2" src="../image/bg_title/start_water.png" alt="">
+              <img class="wave wave-3" src="../image/bg_title/start_water.png" alt="">
+              <img class="wave wave-4" src="../image/bg_title/start_water.png" alt="">
+              <img src="../image/bg_title/start_picture1.png" alt="两世之约">
+            </div>
+            <div class="slide" data-mode="3" data-title="三生梦醒">
+              <img src="../image/bg_title/start_picture3.png" alt="三生梦醒">
+            </div>
+            <div class="slide" data-mode="2" data-title="四维离殇">
+              <img src="../image/bg_title/start_picture2.png" alt="四维离殇">
+            </div>
+          </div>
+          <div class="chapter-name" id="chapter-name">两世之约</div>
+          <div class="dots" id="dots">
+            <button data-index="0" class="active" aria-label="第 1 页"></button>
+            <button data-index="1" aria-label="第 2 页"></button>
+            <button data-index="2" aria-label="第 3 页"></button>
+          </div>
+          <div class="start-wrap" id="btn-start">
+            <img class="btn-start-ring" src="../image/bg_title/start_button.png" alt="">
+            <img class="btn-start" src="../image/bg_title/start_sprite_cn.png" alt="开始">
+          </div>
+          <img id="btn-setup" src="../image/bg_title/setupbutton_cn.png" alt="设置">
+        </div>
+      </div>
+
+      <div id="scene-select" class="scene">
+        <div class="sel-bg" id="bg-select"></div>
+
+        <!-- ★ 剪影层（独立图层，动态生成 .sil-item） -->
+        <div class="sel-silhouette" id="sel-silhouette"></div>
+
+        <button class="sel-back" id="sel-back" aria-label="返回">
+          <img src="../image/select/setup/back.png" alt="返回">
+        </button>
+
+        <div class="sel-scroll" id="sel-scroll">
+          <div class="sel-track" id="sel-track"></div>
+        </div>
+
+        <div class="story-overlay" id="story-overlay">
+          <img class="story-icon" src="../image/select/setup/plot_lcon.png" alt="">
+          <div class="story-text" id="story-text"></div>
+          <button class="story-next" id="story-next" aria-label="下一关">
+            <img src="../image/select/setup/Next.png" alt="下一关">
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== 游戏页 ============== -->
+    <section id="page-game" class="page">
+      <div class="game-bg"></div>
+
+      <header id="game-top">
+        <button class="top-btn" id="btn-restart" aria-label="重来">
+          <img src="../image/game/ING/restart_BT.png" alt="重来">
+        </button>
+        <div class="top-tips-wrap">
+          <button class="top-btn" id="btn-hint" aria-label="提示">
+            <img src="../image/game/ING/tips_BT.png" alt="提示">
+          </button>
+          <div class="tips-count" id="game-hint-count">0</div>
+        </div>
+        <button class="top-btn" id="btn-suspend" aria-label="暂停">
+          <img src="../image/game/ING/suspend_BT.png" alt="暂停">
+        </button>
+      </header>
+
+      <main id="board"><canvas id="game"></canvas></main>
+
+      <div id="progress-deco">
+        <img id="pd-line" src="../image/game/ING/Game_light.png" alt="">
+        <div id="pd-left" class="pd-sprite">
+          <img class="pd-ghost g2" src="../image/game/ING/leftSprite.png" alt="">
+          <img class="pd-ghost g1" src="../image/game/ING/leftSprite.png" alt="">
+          <img class="pd-main"     src="../image/game/ING/leftSprite.png" alt="">
+        </div>
+        <div id="pd-right" class="pd-sprite">
+          <img class="pd-ghost g2" src="../image/game/ING/rightSprite.png" alt="">
+          <img class="pd-ghost g1" src="../image/game/ING/rightSprite.png" alt="">
+          <img class="pd-main"     src="../image/game/ING/rightSprite.png" alt="">
+        </div>
+        <img id="pd-hero" src="../image/game/ING/successHero.png" alt="">
+      </div>
+
+      <!-- ===== 暂停浮层 ===== -->
+      <div class="pause-overlay" id="pause-overlay">
+        <div class="pause-mask" id="pause-mask"></div>
+
+        <div class="pause-frame-wrap" id="pause-frame-wrap">
+          <img class="pause-frame" src="../image/bg_title/frame_sprite12.png" alt="">
+
+          <button class="pause-close" id="pause-close" aria-label="关闭">
+            <img src="../image/bg_title/back_button.png" alt="关闭">
+          </button>
+
+          <div class="pause-level">
+            <div class="pause-level-btn">
+              <img class="pause-level-icon" id="pause-level-icon" alt="">
+              <span class="pause-level-label" id="pause-level-label"></span>
+            </div>
+          </div>
+
+          <button class="pause-menu" id="pause-menu" aria-label="选关">
+            <img src="../image/game/ING/menu_button.png" alt="选关">
+          </button>
+
+          <button class="pause-restart" id="pause-restart" aria-label="重来">
+            <img src="../image/game/ING/restart_button2.png" alt="重来">
+          </button>
+        </div>
+      </div>
+
+      <!-- ============== 成功幕 ============== -->
+      <div id="overlay-win" class="end-scene">
+        <img class="end-icon-top" id="win-top-icon" alt="">
+        <div class="end-text" id="win-text"></div>
+        <button class="end-action" id="btn-win-next" aria-label="继续">
+          <img src="../image/select/setup/Next.png" alt="继续">
+        </button>
+      </div>
+
+      <!-- ============== 失败幕 ============== -->
+      <div id="overlay-fail" class="end-scene">
+        <div class="end-icon-stack" id="fail-icon-stack">
+          <img id="fail-top-icon"
+               src="../image/game/END/failure_lcon.png" alt="">
+          <img id="fail-inads-icon"
+               src="../image/game/END/inads.png" alt="">
+        </div>
+
+        <div class="end-text" id="fail-text"></div>
+
+        <button class="end-action" id="btn-fail-retry" aria-label="重试">
+          <img src="../image/game/END/failure_restart_BT.png" alt="重试">
+        </button>
+      </div>
+    </section>
+
+    <!-- ============== 全局共享 UI ============== -->
+    <div class="toast" id="toast"></div>
+
+    <div class="settings" id="settings">
+      <div class="settings-box">
+        <img class="settings-frame" src="../image/bg_title/frame_sprite26.png" alt="">
+        <img class="settings-close" id="btn-settings-close" src="../image/bg_title/back_button.png" alt="关闭">
+        <div class="settings-grid">
+          <button class="settings-btn" id="btn-music" aria-label="音乐"><img id="music-icon" src="../image/bg_title/music_button.png" alt="音乐"></button>
+          <button class="settings-btn" id="btn-help" aria-label="帮助"><img src="../image/bg_title/help_button.png" alt="帮助"></button>
+          <button class="settings-btn" id="btn-sound" aria-label="音效"><img id="sound-icon" src="../image/bg_title/sound_button.png" alt="音效"></button>
+          <button class="settings-btn" id="btn-about" aria-label="关于"><img src="../image/bg_title/about_button.png" alt="关于"></button>
+        </div>
+      </div>
+    </div>
+
+    <div id="fatal"></div>
+
+  </div>
+</div>
+
+<script type="module" src="../js/app.js"></script>
+</body>
+</html>

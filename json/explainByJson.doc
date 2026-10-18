@@ -1,0 +1,27 @@
+1 . levelColor.json:      每一大关选关按钮数字的RGB
+2 . levelNumber.json:     记录每一大关的小关数
+3 . succeedLevel:         存储当前玩家已经通过的所有小关卡总数
+4 . level%d_%d:           存储每一个关卡的精灵阵列数据，及当前关卡的玩法（白变黑/黑变白）
+5 . tips%d_%d:            存储每一个关卡的提示数据 
+
+6 . selectText.json       存储中文版选关场景每一关的简要介绍内容
+7 . selectText_EN.json    存储英文版选关场景每一关的简要介绍内容
+
+8 . storyScene.json       存储中文版剧情场景的内容
+9 . storyScene_EN.json    存储英文版剧情场景的内容
+
+10. aboutScene.json       存储中文版关于界面内容
+11. aboutScene_EN.json    存储英文版关于界面内容
+
+12. tipsfile              存储用户剩余提示数量
+
+13. buyScene.json         储中文版购买界面内容
+14. buyScene_EN.json      储英文版购买界面内容
+
+
+
+
+
+
+
+${PRODUCT_NAME}

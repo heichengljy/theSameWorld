@@ -1,0 +1,25 @@
+﻿说明：1.下表所有文件均在theSameWorld\sound；2.同文件涉及多个编号的时候，以随机顺序播放一个,,,,
+前缀,文件,数量,target用途,类型
+blip,blip1~4.mp3,4,辅助音、暂不使用，未来会使用,音效
+cable_press,cable_press_1~5.mp3,5,按下 / 触碰到起点时的按压音,音效
+cable_release,cable_release_1~5.mp3,5,松手结束滑动连线时的释放音,音效
+cable_line,cable_line.mp3,1,连成线时的持续走线音（连线每经过一个格子就响一次）,音效
+cable_no_way,cable_no_way.mp3,1,连线不通 / 堵死时的提示音、点击非起点格子的时候,音效
+click,click_01~03.mp3,3,点击某关开始游戏时的提示音,音效
+game_,game_1~4.mp3,4,游戏关卡 BGM（4 首背景音乐，目前只做了第一章节两世之约、只放game_1）,BGM
+selectMusic,selectMusic1~3.mp3,3,选关 / 章节选择界面 BGM（目前只做了第一章两世之约只需selectMusic1.mp3）,BGM
+newLevelOpen,newLevelOpen_1~3.mp3,3,新关卡解锁 / 开启提示音,音效
+startDuang,startDuang_01~04.mp3,4,暂不使用,音效
+gameSuccess,gameSuccess.mp3,1,过关成功音,音效
+gameFail,gameFail.mp3,1,失败音,音效
+gameIntro,gameIntro.mp3,1,循环播放，在选章节的时候。但是现在只做了一章、暂不使用,音效
+gameloop_01,gameloop_01.mp3,1,主界面时播放，最初的页面播放,BGM
+mofaSound,mofaSound.mp3,1,暂不使用,音效
+guaiwu,guaiwu.mp3,1,用户尝试经过不可改变颜色的固定块的时候触发，就是游戏中的一种不是起点、不是陷阱的另一种方块,音效
+doOverTSprite,doOverTSprite.mp3,1,重置本关的时候,音效
+chgMove,chgMove.mp3,1,暂不使用,音效
+moveYellow,moveYellow.mp3,1,暂不使用,音效
+line_light,line_light.mp3,1,暂不使用,音效
+hit_popup,hit_popup.mp3,1,暂不使用,音效
+intro_text,intro_text.mp3,1,暂不使用,音效
+tips,tips.mp3,1,使用提示的音效（点击使用时播放一次）,音效

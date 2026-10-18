@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Archive Console · Dev Only</title>
+<style>
+:root{
+  --bg:#0b0d14; --panel:#12151f; --border:#232838;
+  --text:#d8dcf0; --muted:#7a8199; --accent:#8b6cff;
+  --ok:#4ade80; --warn:#fbbf24; --err:#f87171;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-size:14px;min-height:100vh;
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",system-ui,sans-serif}
+
+/* ---- Gate ---- */
+.gate{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:100;
+  background:radial-gradient(circle at 50% 30%,#1a1f35,#06080f)}
+.gate-box{background:var(--panel);border:1px solid var(--border);border-radius:16px;
+  padding:40px 36px;width:90%;max-width:400px;text-align:center;
+  box-shadow:0 24px 80px rgba(0,0,0,.8)}
+.gate-title{font-size:22px;font-weight:600;margin-bottom:8px;color:#c8b8ff}
+.gate-sub{font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.6}
+.gate input{width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border);
+  border-radius:10px;color:var(--text);font-size:15px;outline:none;margin-bottom:12px;font-family:var(--mono)}
+.gate input:focus{border-color:var(--accent)}
+.gate .btn{width:100%;padding:12px}
+.gate-msg{margin-top:12px;font-size:13px;color:var(--err);min-height:18px}
+
+/* ---- App ---- */
+.app{max-width:1100px;margin:0 auto;padding:24px 20px 60px}
+.header{display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.header-left{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.logo{font-size:20px;font-weight:600;color:#c8b8ff}
+.tag{font-size:11px;padding:3px 10px;background:#1a1f35;border:1px solid var(--accent);
+  color:var(--accent);border-radius:20px}
+.header-right{display:flex;gap:8px;flex-wrap:wrap}
+
+.card{background:var(--panel);border:1px solid var(--border);border-radius:12px;
+  padding:20px;margin-bottom:16px}
+.card-title{font-size:14px;font-weight:600;color:#c8b8ff;margin-bottom:14px;letter-spacing:.05em}
+
+.kv{display:grid;grid-template-columns:120px 1fr;gap:8px;padding:8px 0;
+  border-bottom:1px dashed var(--border);align-items:start}
+.kv:last-child{border-bottom:none}
+.kv .k{color:var(--muted);font-size:13px}
+.kv .v{color:var(--text);font-size:13px;word-break:break-all}
+
+pre{margin:0;background:var(--bg);padding:10px 12px;border-radius:8px;
+  font-family:var(--mono);font-size:12px;color:#a0a8c0;overflow-x:auto;max-height:260px}
+
+.form-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px}
+.form-row:last-child{margin-bottom:0}
+.form-row label{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted)}
+.form-row input[type=number]{width:80px;padding:8px 10px;background:var(--bg);
+  border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--mono);font-size:14px;outline:none}
+.form-row input[type=number]:focus{border-color:var(--accent)}
+
+.input-inline{padding:6px 10px;background:var(--bg);border:1px solid var(--border);
+  border-radius:6px;color:var(--text);font-family:var(--mono);font-size:12px;outline:none;
+  width:100%;max-width:400px}
+.input-inline:focus{border-color:var(--accent)}
+
+.btn{padding:8px 16px;background:#1a1f35;border:1px solid #2f3650;border-radius:8px;
+  color:var(--text);font-size:13px;cursor:pointer;transition:all .15s;font-family:inherit}
+.btn:hover{background:#232840;border-color:var(--accent)}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.primary:hover{background:#9d7fff}
+.btn.danger{background:#3a1a1f;border-color:var(--err);color:var(--err)}
+.btn.danger:hover{background:#4a1f26}
+.btn.warn{background:#3a2e1a;border-color:var(--warn);color:var(--warn)}
+.btn.warn:hover{background:#4a3820}
+.btn.ghost{background:transparent}
+.btn.small{padding:4px 10px;font-size:12px}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+
+.preset-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;padding-top:12px;
+  border-top:1px dashed var(--border)}
+
+.textarea{width:100%;min-height:100px;padding:12px;background:var(--bg);
+  border:1px solid var(--border);border-radius:8px;color:var(--text);
+  font-family:var(--mono);font-size:12px;outline:none;resize:vertical;margin-bottom:12px}
+.textarea:focus{border-color:var(--accent)}
+
+.table{width:100%;border-collapse:collapse;font-size:12px}
+.table th{text-align:left;padding:8px 10px;color:var(--muted);font-weight:500;
+  border-bottom:1px solid var(--border);font-size:11px;letter-spacing:.05em}
+.table td{padding:8px 10px;border-bottom:1px solid #1a1f2f;vertical-align:top;
+  word-break:break-all}
+.table tr:last-child td{border-bottom:none}
+.table tr:hover{background:#0f131e}
+.mono{font-family:var(--mono)}
+.muted{color:var(--muted);font-weight:normal}
+.hint-text{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.7}
+
+.toast{position:fixed;left:50%;bottom:40px;transform:translate(-50%,20px);
+  padding:10px 22px;background:#1a1f35;border:1px solid #2f3650;border-radius:10px;
+  color:var(--text);font-size:13px;opacity:0;pointer-events:none;transition:all .25s;
+  z-index:200;box-shadow:0 8px 30px rgba(0,0,0,.5)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast.ok{border-color:var(--ok);color:var(--ok)}
+.toast.warn{border-color:var(--warn);color:var(--warn)}
+.toast.err{border-color:var(--err);color:var(--err)}
+</style>
+</head>
+<body>
+
+<!-- ============ Gate ============ -->
+<div id="gate" class="gate">
+  <div class="gate-box">
+    <div class="gate-title">🔒 Archive Console</div>
+    <div class="gate-sub">仅限开发者调试<br>部署前请删除本文件</div>
+    <input id="gate-input" type="password" placeholder="输入访问口令" autocomplete="off" spellcheck="false">
+    <button id="gate-btn" class="btn primary">进入</button>
+    <div id="gate-msg" class="gate-msg"></div>
+  </div>
+</div>
+
+<!-- ============ App ============ -->
+<div id="app" class="app" hidden>
+  <header class="header">
+    <div class="header-left">
+      <div class="logo">⚙ Archive Console</div>
+      <div class="tag" id="tag-mode">localStorage</div>
+    </div>
+    <div class="header-right">
+      <button class="btn ghost" id="btn-open-game">打开游戏</button>
+      <button class="btn ghost" id="btn-logout">锁定</button>
+    </div>
+  </header>
+
+  <!-- 当前存档 -->
+  <section class="card">
+    <div class="card-title">当前存档</div>
+    <div class="kv"><div class="k">unlocked</div><div class="v" id="cur-unlocked">—</div></div>
+    <div class="kv"><div class="k">hints</div><div class="v" id="cur-hints">—</div></div>
+    <div class="kv"><div class="k">updatedAt</div><div class="v" id="cur-updated">—</div></div>
+    <div class="kv"><div class="k">原始数据</div><div class="v"><pre id="cur-raw"></pre></div></div>
+  </section>
+
+  <!-- 快速设置 -->
+  <section class="card">
+    <div class="card-title">快速设置</div>
+    <div class="form-row">
+      <label>章节 <input id="in-chapter" type="number" min="1" max="99" value="1"></label>
+      <label>关卡 <input id="in-level" type="number" min="1" max="99" value="1"></label>
+      <label>提示 <input id="in-hints" type="number" min="0" max="999" value="3"></label>
+      <button class="btn primary" id="btn-apply">应用</button>
+    </div>
+    <div class="preset-row">
+      <button class="btn" data-preset="1-1">回到开头</button>
+      <button class="btn" data-preset="5-1">第 5 章</button>
+      <button class="btn" data-preset="10-1">第 10 章</button>
+      <button class="btn" data-preset="12-1">三生梦醒</button>
+      <button class="btn" data-preset="19-1">四维离殇</button>
+      <button class="btn warn" data-preset="25-1">全部解锁</button>
+      <button class="btn" id="btn-max-hints">提示拉满</button>
+    </div>
+    <div class="hint-text">
+      章节映射：<b>1–11</b> 两世之约 · <b>12–18</b> 三生梦醒 · <b>19–24</b> 四维离殇 · <b>25+</b> 全部解锁。
+    </div>
+  </section>
+
+  <!-- 导入导出 -->
+  <section class="card">
+    <div class="card-title">导入 / 导出</div>
+    <textarea id="in-json" class="textarea"
+      placeholder='{"unlocked":"5-1","hints":3}'></textarea>
+    <div class="form-row">
+      <button class="btn primary" id="btn-import-json">从上方 JSON 导入</button>
+      <button class="btn" id="btn-export">导出到文件</button>
+      <button class="btn" id="btn-copy">复制到剪贴板</button>
+    </div>
+  </section>
+
+  <!-- localStorage 全览 -->
+  <section class="card">
+    <div class="card-title">
+      localStorage 全览 <span class="muted" id="ls-count"></span>
+    </div>
+    <table class="table" id="ls-table">
+      <thead><tr><th style="width:200px">Key</th><th>Value</th><th style="width:80px">操作</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <div class="form-row" style="margin-top:12px">
+      <button class="btn" id="btn-refresh-ls">刷新</button>
+      <button class="btn danger" id="btn-clear-all">清空全部 localStorage</button>
+    </div>
+  </section>
+
+  <!-- 存储信息 -->
+  <section class="card">
+    <div class="card-title">存储信息</div>
+    <div class="kv"><div class="k">估算使用</div><div class="v" id="storage-info">—</div></div>
+    <div class="kv"><div class="k">游戏路径</div>
+      <div class="v"><input id="in-game-path" class="input-inline" value="../index.html"></div>
+    </div>
+    <div class="hint-text">
+      修改存档后，<b>游戏页需要刷新或重新进入选关</b>才会读取新进度。
+    </div>
+  </section>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+(function(){
+'use strict';
+
+/* ========================================================
+ * 配置区
+ * ======================================================== */
+const STORAGE_KEY = 'tsw_archive_v1';      // ← 必须和 archive.js 一致
+const DEFAULT_STATE = { unlocked:'1-1', hints:3 };
+const SESSION_KEY   = 'tsw_dev_session';
+const GAME_PATH_DEFAULT = '../index.html';
+
+/* 口令：默认 "tsw-admin-2026"
+ * 修改方法：
+ *   1) 打开浏览器控制台执行：
+ *      btoa(unescape(encodeURIComponent('你的新口令')))
+ *   2) 把返回字符串替换下面 PASS_B64 的值
+ */
+const PASS_B64 = 'dHN3LWFkbWluLTIwMjY=';
+
+/* ========================================================
+ * 第一层防线：拦截 window.open 打开
+ * ======================================================== */
+if (window.opener) {
+  const gate = document.getElementById('gate');
+  if (gate) {
+    gate.innerHTML =
+      '<div class="gate-box">' +
+        '<div class="gate-title">⛔ 已拦截</div>' +
+        '<div class="gate-sub">禁止从其他窗口打开此页面<br>请在地址栏直接访问</div>' +
+      '</div>';
+  }
+  return;
+}
+
+/* ========================================================
+ * 工具
+ * ======================================================== */
+const $  = id => document.getElementById(id);
+const enc = s => btoa(unescape(encodeURIComponent(s)));
+const esc = s => String(s).replace(/[&<>"']/g, c => ({
+  '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+}[c]));
+
+let toastTimer = null;
+function toast(msg, type){
+  const t = $('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (type ? ' ' + type : '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { t.className = 'toast'; }, 1800);
+}
+
+/* ========================================================
+ * 存档读写
+ * ======================================================== */
+function readArchive(){
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return { ...DEFAULT_STATE, _exists:false };
+    const j = JSON.parse(raw);
+    if (!j || typeof j !== 'object') return { ...DEFAULT_STATE, _exists:false, _invalid:true };
+    return { ...j, _exists:true };
+  } catch (e) {
+    return { ...DEFAULT_STATE, _exists:false, _error:e.message };
+  }
+}
+
+function writeArchive(obj){
+  const clean = {
+    unlocked: (typeof obj.unlocked === 'string' && /^\d+-\d+$/.test(obj.unlocked))
+      ? obj.unlocked : '1-1',
+    hints: Number.isFinite(+obj.hints)
+      ? Math.max(0, Math.min(999, parseInt(obj.hints, 10)))
+      : 3
+  };
+  clean.updatedAt = obj.updatedAt || new Date().toISOString();
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(clean));
+  return clean;
+}
+
+/* ========================================================
+ * 渲染
+ * ======================================================== */
+function renderArchive(){
+  const a = readArchive();
+
+  $('cur-unlocked').textContent = a.unlocked || '—';
+  $('cur-hints').textContent    = (a.hints ?? '—');
+  $('cur-updated').textContent  = a.updatedAt || '—';
+  $('cur-raw').textContent      = JSON.stringify({
+    unlocked: a.unlocked, hints: a.hints, updatedAt: a.updatedAt
+  }, null, 2);
+
+  const m = String(a.unlocked || '').match(/^(\d+)-(\d+)$/);
+  if (m) {
+    $('in-chapter').value = parseInt(m[1], 10);
+    $('in-level').value   = parseInt(m[2], 10);
+  }
+  $('in-hints').value = (a.hints ?? 3);
+}
+
+function renderLocalStorage(){
+  const tbody = $('ls-table').querySelector('tbody');
+  tbody.innerHTML = '';
+  const keys = Object.keys(localStorage).sort();
+  $('ls-count').textContent = `(${keys.length} 项)`;
+
+  if (!keys.length) {
+    tbody.innerHTML = '<tr><td colspan="3" class="muted" style="text-align:center;padding:20px">localStorage 为空</td></tr>';
+    return;
+  }
+
+  for (const k of keys) {
+    const v = localStorage.getItem(k) || '';
+    const tr = document.createElement('tr');
+
+    const tdK = document.createElement('td');
+    tdK.className = 'mono';
+    tdK.textContent = k;
+    if (k === STORAGE_KEY) tdK.style.color = '#8b6cff';
+
+    const tdV = document.createElement('td');
+    tdV.className = 'mono';
+    tdV.textContent = v.length > 100 ? v.slice(0, 100) + '…' : v;
+    tdV.title = v;
+
+    const tdO = document.createElement('td');
+    const btn = document.createElement('button');
+    btn.className = 'btn danger small';
+    btn.textContent = '删除';
+    btn.onclick = () => {
+      if (!confirm(`删除 "${k}"？`)) return;
+      localStorage.removeItem(k);
+      renderAll();
+      toast('已删除 ' + k, 'warn');
+    };
+    tdO.appendChild(btn);
+
+    tr.append(tdK, tdV, tdO);
+    tbody.appendChild(tr);
+  }
+}
+
+async function updateStorageInfo(){
+  const el = $('storage-info');
+  try {
+    if (navigator.storage && navigator.storage.estimate) {
+      const est = await navigator.storage.estimate();
+      const used  = (est.usage  / 1024 / 1024).toFixed(2);
+      const quota = (est.quota  / 1024 / 1024).toFixed(0);
+      el.textContent = `${used} MB / ${quota} MB`;
+    } else {
+      el.textContent = '浏览器不支持估算';
+    }
+  } catch (_) {
+    el.textContent = '无法获取';
+  }
+}
+
+function renderAll(){
+  renderArchive();
+  renderLocalStorage();
+  updateStorageInfo();
+}
+
+/* ========================================================
+ * 动作
+ * ======================================================== */
+function applySettings(){
+  const ch = Math.max(1, parseInt($('in-chapter').value, 10) || 1);
+  const lv = Math.max(1, parseInt($('in-level').value, 10) || 1);
+  const h  = Math.max(0, parseInt($('in-hints').value, 10) || 0);
+  writeArchive({ unlocked:`${ch}-${lv}`, hints:h });
+  renderAll();
+  toast(`已设置 ${ch}-${lv} · 提示 ${h}`, 'ok');
+}
+
+function applyPreset(preset){
+  const h = Math.max(0, parseInt($('in-hints').value, 10) || 3);
+  writeArchive({ unlocked:preset, hints:h });
+  renderAll();
+  toast(`已设置 ${preset}`, 'ok');
+}
+
+function maxHints(){
+  const a = readArchive();
+  writeArchive({ unlocked:a.unlocked || '1-1', hints:999 });
+  renderAll();
+  toast('提示数已设为 999', 'ok');
+}
+
+function exportArchive(){
+  const a = readArchive();
+  const data = {
+    unlocked: a.unlocked || '1-1',
+    hints: a.hints ?? 3,
+    updatedAt: a.updatedAt || new Date().toISOString()
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type:'application/json' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `tsw-archive-${Date.now()}.json`;
+  link.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  toast('已导出', 'ok');
+}
+
+function importJson(){
+  const raw = $('in-json').value.trim();
+  if (!raw) return toast('请先粘贴 JSON', 'warn');
+  let obj;
+  try { obj = JSON.parse(raw); }
+  catch (e) { return toast('JSON 解析失败：' + e.message, 'err'); }
+  if (!obj || typeof obj !== 'object') return toast('JSON 格式不正确', 'err');
+  writeArchive(obj);
+  renderAll();
+  toast('导入成功', 'ok');
+}
+
+async function copyToClipboard(){
+  const a = readArchive();
+  const txt = JSON.stringify({
+    unlocked:a.unlocked, hints:a.hints, updatedAt:a.updatedAt
+  }, null, 2);
+  try {
+    await navigator.clipboard.writeText(txt);
+    toast('已复制到剪贴板', 'ok');
+  } catch (_) {
+    $('in-json').value = txt;
+    toast('剪贴板不可用，已填入输入框', 'warn');
+  }
+}
+
+function clearAll(){
+  if (!confirm('⚠ 将删除 localStorage 全部数据（含游戏存档），确定？')) return;
+  if (!confirm('再次确认：彻底清空 localStorage？')) return;
+  localStorage.clear();
+  renderAll();
+  toast('localStorage 已清空', 'warn');
+}
+
+function openGame(){
+  const path = $('in-game-path').value || GAME_PATH_DEFAULT;
+  window.open(path, '_blank');
+}
+
+/* ========================================================
+ * 第二层防线：口令验证
+ * ======================================================== */
+function checkSession(){
+  try { return sessionStorage.getItem(SESSION_KEY) === '1'; }
+  catch (_) { return false; }
+}
+
+function showApp(){
+  $('gate').hidden = true;
+  $('app').hidden  = false;
+  renderAll();
+}
+
+function showGate(msg){
+  $('gate').hidden = false;
+  $('app').hidden  = true;
+  $('gate-msg').textContent = msg || '';
+}
+
+function tryLogin(){
+  const pass = $('gate-input').value;
+  if (!pass) { $('gate-msg').textContent = '请输入口令'; return; }
+
+  let ok = false;
+  try { ok = (enc(pass) === PASS_B64); } catch (_) {}
+
+  if (!ok) {
+    $('gate-msg').textContent = '口令错误';
+    $('gate-input').value = '';
+    return;
+  }
+
+  try { sessionStorage.setItem(SESSION_KEY, '1'); } catch (_) {}
+  $('gate-input').value = '';
+  showApp();
+}
+
+function logout(){
+  try { sessionStorage.removeItem(SESSION_KEY); } catch (_) {}
+  $('gate-input').value = '';
+  showGate('已锁定');
+}
+
+/* ========================================================
+ * 绑定
+ * ======================================================== */
+$('gate-btn').addEventListener('click', tryLogin);
+$('gate-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') tryLogin();
+});
+
+$('btn-apply').addEventListener('click', applySettings);
+document.querySelectorAll('[data-preset]').forEach(btn => {
+  btn.addEventListener('click', () => applyPreset(btn.dataset.preset));
+});
+$('btn-max-hints').addEventListener('click', maxHints);
+$('btn-export').addEventListener('click', exportArchive);
+$('btn-copy').addEventListener('click', copyToClipboard);
+$('btn-import-json').addEventListener('click', importJson);
+$('btn-refresh-ls').addEventListener('click', () => { renderLocalStorage(); toast('已刷新'); });
+$('btn-clear-all').addEventListener('click', clearAll);
+$('btn-open-game').addEventListener('click', openGame);
+$('btn-logout').addEventListener('click', logout);
+
+/* ========================================================
+ * 启动
+ * ======================================================== */
+if (checkSession()) showApp();
+else showGate('');
+
+})();
+</script>
+</body>
+</html>

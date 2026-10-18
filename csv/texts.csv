@@ -1,0 +1,49 @@
+TID,CN,EN
+TID_APP_NAME,同一个世界,The Same World
+KTPlay,,
+TID_KTPLAY_BACK,返回,BACK
+TID_KTPLAY_DONE,完成,DONE
+TID_KTPLAY_LB_NUM,%d 个排行榜,%d leaderboards
+TID_KTPLAY_MY_RANK,总体排名%d,#%d overall
+TID_KTPLAY_NO_RANK,未排名,Not ranked
+TID_KTPLAY_RATE,轻按来给此游戏评分,Tap to rate this game
+TID_KTPLAY_ALL_PLAYERS,所有 %d 位玩家,All %d Players
+TID_KTPLAY_MY_BEST,您在所有玩家中排名第%d，最好成绩为 %s,"#%d overall, best is %s"
+TID_KTPLAY_LOGIN,登录上传成绩,Login to post score
+TID_LB_NORMAL,普通模式,NORMAL
+TID_LB_HELL,地狱模式,HELL
+评价,,
+TID_RATE_ARE_YOU_HAPPY,你在玩%s时开心吗?,Do you happy when you play %s?
+TID_RATE_HAPPY,是的，很开心,Yes
+TID_RATE_UNHAPPY,不太开心…,No
+TID_RATE_RATE_TITLE,你想对%s留下评论吗？那对我们很有帮助!,Do you want to leave a comment? That's very helpful for us!
+TID_RATE_RATE,留下评论,Leave a comment
+TID_RATE_LATER,稍后再说,Later on
+TID_RATE_CHG_PLAY,换一个游戏玩,Another game
+TID_RATE_FEEDBACK_TITLE,提供反馈意见吗？帮助我们改进游戏,Can you provide feedback to us？ Help us to improve our game！
+TID_RATE_FEEDBACK,反馈意见,Feedback
+TID_RATE_NO_THANKS,不，谢谢,No
+TID_NOTICE_1,好久没见到公主了，很想念她啊,"I haven't seen the princess for a long time, I miss her."
+TID_NOTICE_2,你的智慧，就到此为止了吗,Your wisdom，just end  here？
+TID_NOTICE_3,累了吗，来放松下大脑也不错哦,Did you get tired？Come and let it go.
+TID_NOTICE_4,黑夜过去，又是白天，或许你该进来休息下,"The night  past, but also the day, you should come in and have a rest"
+TID_NOTICE_5,厌倦现实了吗，把它颠倒过来吧,"Tired of reality, turn it upside down."
+TID_NOTICE_6,我们错过一个又一个轮回，只能祈求你的帮助,"We miss in one after another reincarnation, can only pray for your help"
+关注微信,,
+TID_FOLLOW_WX_TEXT,关注“热因子独立游戏”公众号\n\n\n获得更多同一个世界相关资讯\n\n\n（关注成功获得提示+3）,关注“热因子独立游戏”公众号\n\n\n获得更多同一个世界相关资讯\n\n\n（关注成功获得提示+3）
+TID_FOLLOW_WX_BT,关注微信公众号,关注微信公众号
+TID_CONFIRM_WX_TEX,要打开微信并关注\n\n“热因子独立游戏”公众号吗？,要打开微信并关注\n\n“热因子独立游戏”公众号吗？
+TID_CONFIRM_WX_BT,复制名称并打开微信,复制名称并打开微信
+TID_FOLLOW_WX_GET_TIPS,已获得3个提示,已获得3个提示
+下载官方版,,
+TID_OFFICIAL_TEXT,官方版上线啦\n\n更优惠，更新更迅捷,"The official version can be downloaded now\n\nMore preferential, more "
+TID_OFFICIAL_BT,升级官方最新版,Updated version
+TID_OFFICIAL_TITLE,版本升级,Update
+TID_OFFICIAL_UPTEXT,纯粹  精致  唯美,pure delicate beautiful
+下载APP,,
+TID_APPDOWN_TEXT_TITLE,热因子,热因子
+TID_APPDOWN_TEXT_UP,X6   下载领取,X6   下载领取
+TID_APPDOWN_TEXT,搜罗全球精品独立游戏\n\n原创、纯粹、艺术、正版游戏,搜罗全球精品独立游戏\n\n原创、纯粹、艺术、正版游戏
+TID_APPDOWN_BT,下载领取,下载领取
+TID_APPDOWN_GET_TIPS,已获得6个提示,已获得6个提示
+,,

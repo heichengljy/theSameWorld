@@ -1,0 +1,32 @@
+{
+  "gameModle_1": [
+    "Door",
+    "Tower",
+    "Void",
+    "Taboo",
+    "Dilemma",
+    "Road",
+    "comply",
+    "Sprout",
+    "Time",
+    "Prelude",
+    "Fate"
+  ],
+  "gameModle_2": [
+    "Millennium",
+    "Reason",
+    "Companion",
+    "History",
+    "Exploration",
+    "Ruins"
+  ],
+  "gameModle_3": [
+    "Dream",
+    "Friend",
+    "Summer",
+    "Prophesy",
+    "Future",
+    "Rupture",
+    "Autumn"
+  ]
+}
